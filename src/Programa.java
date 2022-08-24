@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Programa {
@@ -6,7 +7,11 @@ public class Programa {
     }
     public static void iniciar(){
         String[][] biblioteca = crearBiblioteca();
-        ingresarPrimerosLibros(biblioteca);
+        Scanner in = new Scanner(System.in);
+        System.out.println("cuantos libros desea ingresar para comenzar?");
+        System.out.println("considerar un minimo de 3 para comenzar");
+        int cantidadini= validNum(eleccion(),3,100); // entrada de la cantidad de libros a ingresar validada
+        ingresarPrimerosLibros(biblioteca,cantidadini);
         menu();
         ejecucionMenu(biblioteca);
 
@@ -14,14 +19,16 @@ public class Programa {
 
     public static String[][] crearBiblioteca(){
         String[][] bibliotecaFuncion = new String[100][3]; //creacion de una biblioteca limitada
+        for (int i =0;i<100;i++){
+            for (int j=0;j<3;j++){
+                bibliotecaFuncion[i][j]="";
+            }
+        }
         return bibliotecaFuncion;
     }
 
-    public static String[][] ingresarPrimerosLibros(String[][] biblioteca){
+    public static String[][] ingresarPrimerosLibros(String[][] biblioteca, int cantidad){
         Scanner in = new Scanner(System.in);
-        System.out.println("cuantos libros desea ingresar para comenzar?");
-        System.out.println("considerar un minimo de 3 para comenzar");
-        int cantidad= validNum(eleccion(),3,100); // entrada de la cantidad de libros a ingresar validada
         System.out.println("ingrese los libros en este orden");
         System.out.println("1.-Autor    2.-Titulo    3.-Editorial");
         for (int i=0;i<cantidad;i++){ //for para agregar los libros
@@ -73,7 +80,7 @@ public class Programa {
     public static int cantLibros(String[][] biblioteca){
         int cantidad=0;
         for(int i=0;i<100;i++){
-            if (!biblioteca[i][0].isEmpty()){
+            if (!(biblioteca[i][0].isBlank())){
                 cantidad++;
             }
         }
@@ -95,8 +102,8 @@ public class Programa {
 
     public static int buscarGeneral(int buscarSegun, String comparador, String[][] biblioteca){
         int coincidencias=0;
-        for (int i=0;i<100;i++){
-            if (biblioteca[i][buscarSegun].equals(comparador)){
+        for (int i=0;i<cantLibros(biblioteca);i++){
+            if (biblioteca[i][(buscarSegun-1)].equals(comparador)){
                 coincidencias++;
             }
         }
@@ -134,17 +141,27 @@ public class Programa {
             switch (eleccion){
                 case 1:
                     ingresarLibros(cantEspaciosRestantes(biblioteca),cantLibros(biblioteca), biblioteca);
+                    menu();
+                    eleccion = eleccion();
                     break;
                 case 2:
                     buscarLibro(biblioteca);
+                    menu();
+                    eleccion = eleccion();
                     break;
                 case 3:
                     leerCantidadLibros(biblioteca);
+                    menu();
+                    eleccion = eleccion();
                     break;
                 case 4:
                     leerCantEspaciosRestantes(biblioteca);
+                    menu();
+                    eleccion = eleccion();
                 case 5:
                     leerLibros(biblioteca);
+                    menu();
+                    eleccion = eleccion();
                     break;
             }
         }
