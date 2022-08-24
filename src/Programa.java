@@ -2,11 +2,13 @@ import java.util.Scanner;
 
 public class Programa {
     public static void main(String[] args) {
-
+        iniciar();
     }
     public static void iniciar(){
         String[][] biblioteca = crearBiblioteca();
         ingresarPrimerosLibros(biblioteca);
+        menu();
+        ejecucionMenu(biblioteca);
 
     }
 
@@ -17,15 +19,17 @@ public class Programa {
 
     public static String[][] ingresarPrimerosLibros(String[][] biblioteca){
         Scanner in = new Scanner(System.in);
-        System.out.println("cuantos libros desea ingresar?");
+        System.out.println("cuantos libros desea ingresar para comenzar?");
         System.out.println("considerar un minimo de 3 para comenzar");
-        int cantidad= validNum(eleccion(),1,100); // entrada de la cantidad de libros a ingresar validada
+        int cantidad= validNum(eleccion(),3,100); // entrada de la cantidad de libros a ingresar validada
         System.out.println("ingrese los libros en este orden");
         System.out.println("1.-Autor    2.-Titulo    3.-Editorial");
         for (int i=0;i<cantidad;i++){ //for para agregar los libros
+            System.out.println("ya puede añadir su libro");
             for (int j=0;j<3;j++){
                 biblioteca[i][j] = in.next();
             }
+            System.out.println("libro añadido exitosamente");
         }
         return biblioteca;
     }
@@ -38,9 +42,11 @@ public class Programa {
         System.out.println("ingrese los libros en este orden");
         System.out.println("1.-Autor    2.-Titulo    3.-Editorial");
         for (int i=cantLibros;i<100;i++){
+            System.out.println("ya puede añadir su libro");
             for (int j=0;j<3;j++){
                 biblioteca[i][j]= in.next();
             }
+            System.out.println("libro añadido exitosamente");
         }
         return biblioteca;
     }
@@ -105,7 +111,7 @@ public class Programa {
 
     public static int validNum(int num, int min, int max) {
         Scanner in = new Scanner(System.in);
-        while (num > min || num < max) {
+        while (num < min || num > max) {
             System.out.println("numero invalido, ingrese nuevamente");
             num = in.nextInt();
         }
@@ -120,5 +126,27 @@ public class Programa {
         System.out.println("4.- Mostrar cantidad de espacios disponibles");
         System.out.println("5.- Mostrar todos los libros");
         System.out.println("6.- Terminar programa");
+    }
+
+    public static void ejecucionMenu(String[][] biblioteca){
+        int eleccion = validNum(eleccion(),1,6);
+        while (!(eleccion ==6)){
+            switch (eleccion){
+                case 1:
+                    ingresarLibros(cantEspaciosRestantes(biblioteca),cantLibros(biblioteca), biblioteca);
+                    break;
+                case 2:
+                    buscarLibro(biblioteca);
+                    break;
+                case 3:
+                    leerCantidadLibros(biblioteca);
+                    break;
+                case 4:
+                    leerCantEspaciosRestantes(biblioteca);
+                case 5:
+                    leerLibros(biblioteca);
+                    break;
+            }
+        }
     }
 }
